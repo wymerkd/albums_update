@@ -9,6 +9,16 @@ get('/') do
   erb(:albums)
 end
 
+
+get('/albums') do
+  if params["search"]
+    @albums = Album.search(params[:search])
+  else
+    @albums = Album.all
+  end
+  erb(:albums)
+end
+
 get('/albums/:id/edit') do
   @album = Album.find(params[:id].to_i())
   erb(:edit_album)
@@ -20,7 +30,11 @@ end
 
 post('/albums') do
   name = params[:album_name]
-  album = Album.new(name, nil)
+  year = params[:album_year]
+  genre = params[:album_genre]
+  artist = params[:album_artist]
+  id = params[:id]
+  album = Album.new(name, id, year, genre, artist)
   album.save()
   @albums = Album.all() # Adding this line will fix the error.
   erb(:albums)
@@ -28,7 +42,7 @@ end
 
 patch('/albums/:id') do
   @album = Album.find(params[:id].to_i())
-  @album.update(params[:name])
+  @album.update(params[:name], params[:year], params[:genre], params[:artist]) #add params?
   @albums = Album.all
   erb(:albums)
 end

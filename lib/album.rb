@@ -1,5 +1,5 @@
 class Album
-  attr_reader :id, :name, :year, :genre, :artist
+  attr_reader :name, :id, :year, :genre, :artist
   @@albums = {}
   @@total_rows = 0
 
@@ -13,6 +13,10 @@ class Album
 
   def self.all
     @@albums.values()
+  end
+
+  def self.search(x)
+    @@albums.values.select { |e| /#{x}/i.match? e.name}
   end
 
   def save
