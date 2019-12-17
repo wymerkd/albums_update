@@ -9,7 +9,6 @@ get('/') do
   erb(:albums)
 end
 
-
 get('/albums') do
   if params["search"]
     @albums = Album.search(params[:search])
@@ -36,7 +35,7 @@ post('/albums') do
   id = params[:id]
   album = Album.new(name, id, year, genre, artist)
   album.save()
-  @albums = Album.all() # Adding this line will fix the error.
+  @albums = Album.all # Adding this line will fix the error.
   erb(:albums)
 end
 

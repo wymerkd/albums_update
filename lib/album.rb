@@ -11,12 +11,18 @@ class Album
     @artist = artist
   end
 
+  # def sort
+  #   if @@albums.length <=1
+  #     @name.sort
+  #   end
+  # end
+
   def self.all
-    @@albums.values()
+    @@albums.values().sort { |a,b| a.name.downcase() <=> b.name.downcase() }
   end
 
   def self.search(x)
-    @@albums.values.select { |e| /#{x}/i.match? e.name}
+    @@albums.values.select { |e| /\A#{x}/i =~ e.name}
   end
 
   def save
