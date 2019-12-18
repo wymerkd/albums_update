@@ -87,7 +87,7 @@ describe '#Album' do
     it("returns an album's songs") do
       album = Album.new("Giant Steps", nil, "1945", "Reggaeton", "Daddy Yankee")
       album.save()
-      song = Song.new("Naima", album.id, nil)
+      song = Song.new("All You Need Is Love", album.id, nil)
       song.save()
       song2 = Song.new("Cousin Mary", album.id, nil)
       song2.save()
