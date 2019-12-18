@@ -3,10 +3,10 @@ require('./app')
 Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 
-describe'#Album' do
-  before(:each) do
-    Album.clear()
-  end
+# describe'#Album' do
+#   before(:each) do
+#     Album.clear()
+#   end
 
   describe('create an album path', {:type => :feature}) do
     it('creates an album and then goes to the album page') do
