@@ -19,7 +19,7 @@ describe '#Album' do
       album.save()
       album2 = Album.new("Blue", nil, "1945", "Reggaeton", "Daddy Yankee")
       album2.save()
-      expect(Album.all).to(eq([album, album2]))
+      expect(Album.all).to(eq([album2, album]))
     end
   end
 
@@ -71,14 +71,27 @@ describe '#Album' do
       expect(Album.all).to(eq([album2]))
     end
   end
-    describe('#search') do
-      it("searches albums  by name") do
-        album = Album.new("Giant Steps", nil, "1943", "Reggae", "Bob Marley")
-        album.save()
-        album2 = Album.new("Blue", nil, "1945", "Reggaeton", "Daddy Yankee")
-        album2.save()
-        expect(Album.search("Giant Steps")).to(eq([album]))
-        expect(Album.search("Blue")).to(eq([album2]))
-      end
+
+  describe('#search') do
+    it("searches albums by name") do
+      album = Album.new("Giant Steps", nil, "1943", "Reggae", "Bob Marley")
+      album.save()
+      album2 = Album.new("Blue", nil, "1945", "Reggaeton", "Daddy Yankee")
+      album2.save()
+      expect(Album.search("Giant Steps")).to(eq([album]))
+      expect(Album.search("Blue")).to(eq([album2]))
+    end
+  end
+
+  describe('#songs') do
+    it("returns an album's songs") do
+      album = Album.new("Giant Steps", nil, "1945", "Reggaeton", "Daddy Yankee")
+      album.save()
+      song = Song.new("Naima", album.id, nil)
+      song.save()
+      song2 = Song.new("Cousin Mary", album.id, nil)
+      song2.save()
+      expect(album.songs).to(eq([song, song2]))
+    end
   end
 end

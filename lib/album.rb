@@ -11,12 +11,6 @@ class Album
     @artist = artist
   end
 
-  # def sort
-  #   if @@albums.length <=1
-  #     @name.sort
-  #   end
-  # end
-
   def self.all
     @@albums.values().sort { |a,b| a.name.downcase() <=> b.name.downcase() }
   end
@@ -51,5 +45,9 @@ class Album
 
   def delete
     @@albums.delete(self.id)
+  end
+
+  def songs
+    Song.find_by_album(self.id)
   end
 end
