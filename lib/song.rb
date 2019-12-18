@@ -1,3 +1,4 @@
+
 class Song
   attr_reader :id
   attr_accessor :name, :album_id
@@ -41,7 +42,7 @@ class Song
     @@songs = {}
   end
 
-  def self.find_by_album(alb_id)
+  def self.find_by_album(alb_id)   #add songs to album (push w/ID)
     songs = []
     @@songs.values.each do |song|
       if song.album_id == alb_id
@@ -51,7 +52,8 @@ class Song
     songs
   end
 
-  def album
+  def album       #find the album a song belongs to
     Album.find(self.album_id)
   end
+
 end

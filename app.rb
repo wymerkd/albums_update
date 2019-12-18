@@ -2,9 +2,64 @@ require('sinatra')
 require('sinatra/reloader')
 require('./lib/album')
 require 'pry'
-require('./lib/song')
 also_reload('lib/**/*.rb')
+require('./lib/song')
 
+
+
+get('/') do
+  @albums = Album.all
+  erb(:albums)
+end
+
+get('/albums') do
+  if params["search"]
+    @albums = Album.search(params[:search])
+  else
+    @albums = Album.all
+  end
+  erb(:albums)
+end
+
+get('/albums/new') do #The position of this is uber important
+  erb(:new_album)
+end
+
+get('/albums/:id') do
+  @album = Album.find(params[:id].to_i())
+  erb(:album)
+end
+
+get('/albums/:id/edit') do
+  @album = Album.find(params[:id].to_i())
+  erb(:edit_album)
+end
+
+post('/albums') do
+  name = params[:album_name]
+  year = params[:album_year]
+  genre = params[:album_genre]
+  artist = params[:album_artist]
+  id = params[:id]
+  album = Album.new(name, nil, year, genre, artist)
+  album.save()
+  @albums = Album.all # Adding this line will fix the error.
+  erb(:albums)
+end
+
+patch('/albums/:id') do
+  @album = Album.find(params[:id].to_i())
+  @album.update(params[:name], params[:year], params[:genre], params[:artist]) #add params?
+  @albums = Album.all
+  erb(:albums)
+end
+
+delete('/albums/:id') do
+  @album = Album.find(params[:id].to_i())
+  @album.delete()
+  @albums = Album.all
+  erb(:albums)
+end
 
 # Get the detail for a specific song such as lyrics and songwriters.
 get('/albums/:id/songs/:song_id') do
@@ -34,58 +89,4 @@ delete('/albums/:id/songs/:song_id') do
   song.delete
   @album = Album.find(params[:id].to_i())
   erb(:album)
-end
-
-get('/') do
-  @albums = Album.all
-  erb(:albums)
-end
-
-get('/albums') do
-  if params["search"]
-    @albums = Album.search(params[:search])
-  else
-    @albums = Album.all
-  end
-  erb(:albums)
-end
-
-get('/albums/:id') do
-  @album = Album.find(params[:id].to_i())
-  erb(:album)
-end
-
-get('/albums/:id/edit') do
-  @album = Album.find(params[:id].to_i())
-  erb(:edit_album)
-end
-
-get('/albums/new') do
-  erb(:new_album)
-end
-
-post('/albums') do
-  name = params[:album_name]
-  year = params[:album_year]
-  genre = params[:album_genre]
-  artist = params[:album_artist]
-  id = params[:id]
-  album = Album.new(name, id, year, genre, artist)
-  album.save()
-  @albums = Album.all # Adding this line will fix the error.
-  erb(:albums)
-end
-
-patch('/albums/:id') do
-  @album = Album.find(params[:id].to_i())
-  @album.update(params[:name], params[:year], params[:genre], params[:artist]) #add params?
-  @albums = Album.all
-  erb(:albums)
-end
-
-delete('/albums/:id') do
-  @album = Album.find(params[:id].to_i())
-  @album.delete()
-  @albums = Album.all
-  erb(:albums)
 end
